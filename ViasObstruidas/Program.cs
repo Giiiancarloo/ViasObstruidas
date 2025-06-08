@@ -17,6 +17,7 @@ class ProgramaRegistroVias
     static void MenuPrin()
     {
         Console.Clear();
+        Console.WriteLine("Algoritmo para el registro y monitoreo de vías con sugerencia de trayectos alternos");
         Console.WriteLine();
         Console.WriteLine("MENU DEL ALGORITMO");
         Console.WriteLine("Seleccione una opción:");
@@ -26,27 +27,36 @@ class ProgramaRegistroVias
         Console.Write("Ingrese su opción: ");
     }
 
+
     static void Main(string[] args)
     {
         int opcion;
-
-        Console.WriteLine();
-        Console.WriteLine("Algoritmo para el registro y monitoreo de vías con sugerencia de trayectos alternos");
 
         do
         {
            MenuPrin();
 
+            // Validar la entrada del usuario
+
             if (!int.TryParse(Console.ReadLine(), out opcion))
+            //TryParse intenta convertir la entrada en un número entero, si la conversión es exitosa significa que
+            //el resultado será true y se ejecutará el bloque "if", sin embargo, necesitamos que esto no pase si es int, por lo que
+            //invertimos la lógica del "if" con un "!", haciendo de que el resultado sea false, evitando que se ejecute el "if"
+
+            //en caso de que la entrada no sea un int, la conversión será false, pero como se invierte el resultado, será true
+            //y se ejecutará el bloque "if", mostrando un mensaje de error y volviendo a mostrar el menú.
             {
-                Console.WriteLine(" ");
+                Console.Clear();
                 Console.WriteLine("¡Opción inválida!");
+                Console.WriteLine("Presione cualquier tecla para continuar...");
+                Console.ReadLine();
                 continue;
             }
 
             switch (opcion)
             {
                 case 1:
+                    //Condicion de "if" para verificar que la cantidad de vias obstruidas registradas no pase el límite establecido
                     if (contadorViasObstruidas <= MAX_VIAS_OBSTRUIDAS)
                     {
                         int index = contadorViasObstruidas;
@@ -80,23 +90,28 @@ class ProgramaRegistroVias
 
                         Console.WriteLine();
                         Console.WriteLine("¡La vía obstruida ha sido registrada con éxito!");
-                        Console.ReadLine();
 
                         contadorViasObstruidas++;
+
+                        Console.WriteLine("Presione cualquier tecla para continuar...");
+                        Console.ReadLine();
 
                     }
                     else
                     {
+                        Console.Clear();
                         Console.WriteLine("ERROR: Máximo de vías registradas alcanzado");
-                        Console.WriteLine("-----------------------");
+                        Console.WriteLine("Presione cualquier tecla para continuar...");
+                        Console.ReadLine();
                     }
                     break;
 
                 case 2:
                     if (contadorViasObstruidas > 1)
                     {
-                        Console.WriteLine("-----------------------");
+                        Console.Clear();
                         Console.WriteLine("Listado de vías obstruidas registradas:");
+                        Console.WriteLine("-----------------------");
 
                         for (int x = 1; x < contadorViasObstruidas; x++)
                         {
@@ -109,25 +124,30 @@ class ProgramaRegistroVias
                             Console.WriteLine($"Reportante: {nombreUsuario[x]}");
                             Console.WriteLine("-----------------------");
                         }
+                        Console.WriteLine("Presione cualquier tecla para continuar...");
+                        Console.ReadLine();
                     }
                     else
                     {
-                        Console.WriteLine("-----------------------");
+                        Console.Clear();
                         Console.WriteLine("¡No se ha registrado ninguna vía!");
-                        Console.WriteLine("-----------------------");
+                        Console.WriteLine("Presione cualquier tecla para continuar...");
+                        Console.ReadLine();
                     }
                     break;
 
                 case 3:
-                    Console.WriteLine("-----------------------");
+                    Console.Clear();
                     Console.WriteLine("Cerrando algoritmo...");
-                    Console.WriteLine("-----------------------");
                     break;
 
+                //En caso de que la entrada de opción no sea ni 1, 2 o 3, se ejecutará el bloque "default"
+                //mostrando un mensaje de error y volviendo a mostrar el menú
                 default:
-                    Console.WriteLine("-----------------------");
+                    Console.Clear();
                     Console.WriteLine("¡Opción inválida!");
-                    Console.WriteLine("-----------------------");
+                    Console.WriteLine("Presione cualquier tecla para continuar...");
+                    Console.ReadLine();
                     break;
             }
 
