@@ -16,12 +16,14 @@ class ProgramaRegistroVias
     //metodo para el menú principal
     static void MenuPrin()
     {
+        Console.Clear();
         Console.WriteLine();
         Console.WriteLine("MENU DEL ALGORITMO");
         Console.WriteLine("Seleccione una opción:");
         Console.WriteLine("1. Registrar vía obstruida");
         Console.WriteLine("2. Listar vías obstruidas");
         Console.WriteLine("3. Salir");
+        Console.Write("Ingrese su opción: ");
     }
 
     static void Main(string[] args)
@@ -37,6 +39,7 @@ class ProgramaRegistroVias
 
             if (!int.TryParse(Console.ReadLine(), out opcion))
             {
+                Console.WriteLine(" ");
                 Console.WriteLine("¡Opción inválida!");
                 continue;
             }
@@ -50,7 +53,7 @@ class ProgramaRegistroVias
 
                         idViaObstruida[index] = index;
 
-                        Console.WriteLine("-----------------------");
+                        Console.Clear();
                         Console.WriteLine("Ingresar datos de la vía obstruida");
                         Console.WriteLine();
 
@@ -77,9 +80,10 @@ class ProgramaRegistroVias
 
                         Console.WriteLine();
                         Console.WriteLine("¡La vía obstruida ha sido registrada con éxito!");
-                        Console.WriteLine("-----------------------");
+                        Console.ReadLine();
 
                         contadorViasObstruidas++;
+
                     }
                     else
                     {
