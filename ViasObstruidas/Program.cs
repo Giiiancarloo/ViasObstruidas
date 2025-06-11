@@ -2,8 +2,162 @@
 
 class ProgramaRegistroVias
 {
-    const int MAX_VIAS_OBSTRUIDAS = 100;
+    //INICIO DE MÉTODOS PARA EL LOGIN
+    static string rutaArchivo = "usuarios.txt";
 
+    static void RegistrarUsuario()
+    {
+        Console.WriteLine("\n--- Registro de Usuario ---");
+        Console.Write("Nuevo usuario: ");
+        string usuario = Console.ReadLine();
+
+        if (UsuarioExiste(usuario))
+        {
+            Console.WriteLine("El usuario ya existe.");
+            return;
+        }
+
+        Console.Write("Nueva contraseña: ");
+        string contrasena = LeerContrasena();
+
+        File.AppendAllText(rutaArchivo, $"{usuario},{contrasena}{Environment.NewLine}");
+        Console.WriteLine("\nUsuario registrado exitosamente.");
+    }
+
+    static void IniciarSesion()
+    {
+        Console.WriteLine("\n--- Inicio de Sesión ---");
+        Console.Write("Usuario: ");
+        string usuario = Console.ReadLine();
+        Console.Write("Contraseña: ");
+        string contrasena = LeerContrasena();
+
+        if (ValidarCredenciales(usuario, contrasena))
+        {
+            Console.WriteLine("\n¡Inicio de sesión exitoso!");
+            MostrarMenuUsuario(usuario);
+        }
+        else
+        {
+            Console.WriteLine("\nUsuario o contraseña incorrectos.");
+        }
+    }
+
+    static void MostrarMenuUsuario(string usuario)
+    {
+        int opcion1;
+        do
+        {
+            Console.Clear();
+            Console.WriteLine($"=== Menú De Usuario (Usuario: {usuario}) ===");
+            Console.WriteLine("1. Ver perfil");
+            Console.WriteLine("2. Configuración");
+            Console.WriteLine("3. Ayuda");
+            Console.WriteLine("4. Cerrar sesión");
+            Console.WriteLine("5. Menu vías obstruidas");
+            Console.Write("Selecciona una opción (1-5): ");
+            string entrada = Console.ReadLine();
+
+            if (int.TryParse(entrada, out opcion1))
+            {
+                switch (opcion1)
+                {
+                    case 1:
+                        Console.WriteLine("Mostrando perfil...");
+                        break;
+                    case 2:
+                        Console.WriteLine("Entrando a configuración...");
+                        break;
+                    case 3:
+                        Console.WriteLine("Mostrando ayuda...");
+                        break;
+                    case 4:
+                        Console.WriteLine("Cerrando sesión...");
+                        break;
+                    case 5:
+                         MenuVias(usuario);
+                        break;
+
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Por favor, introduce un número válido.");
+                opcion1 = 0;
+            }
+
+            if (opcion1 != 5)
+            {
+                Console.WriteLine("\nPresiona una tecla para continuar...");
+                Console.ReadKey();
+            }
+
+        } while (opcion1 != 5);
+    }
+
+    static bool UsuarioExiste(string usuario)
+    {
+        if (!File.Exists(rutaArchivo))
+            return false;
+
+        string[] lineas = File.ReadAllLines(rutaArchivo);
+        foreach (string linea in lineas)
+        {
+            string[] partes = linea.Split(',');
+            if (partes[0] == usuario)
+                return true;
+        }
+        return false;
+    }
+
+    static bool ValidarCredenciales(string usuario, string contrasena)
+    {
+        if (!File.Exists(rutaArchivo))
+            return false;
+
+        string[] lineas = File.ReadAllLines(rutaArchivo);
+        foreach (string linea in lineas)
+        {
+            string[] partes = linea.Split(',');
+            if (partes.Length == 2 && partes[0] == usuario && partes[1] == contrasena)
+                return true;
+        }
+        return false;
+    }
+
+    static string LeerContrasena()
+    {
+        string contrasena = "";
+        ConsoleKeyInfo tecla;
+
+        do
+        {
+            tecla = Console.ReadKey(true);
+
+            if (tecla.Key != ConsoleKey.Backspace && tecla.Key != ConsoleKey.Enter)
+            {
+                contrasena += tecla.KeyChar;
+                Console.Write("*");
+            }
+            else if (tecla.Key == ConsoleKey.Backspace && contrasena.Length > 0)
+            {
+                contrasena = contrasena.Substring(0, contrasena.Length - 1);
+                int pos = Console.CursorLeft;
+                Console.SetCursorPosition(pos - 1, Console.CursorTop);
+                Console.Write(" ");
+                Console.SetCursorPosition(pos - 1, Console.CursorTop);
+            }
+        } while (tecla.Key != ConsoleKey.Enter);
+
+        return contrasena;
+    }
+
+
+    //Arreglos para el registro de vías obstruidas
+    const int MAX_VIAS_OBSTRUIDAS = 100;
     static int contadorViasObstruidas = 1;
     static int[] idViaObstruida = new int[MAX_VIAS_OBSTRUIDAS];
     static string[] distrito = new string[MAX_VIAS_OBSTRUIDAS];
@@ -13,8 +167,9 @@ class ProgramaRegistroVias
     static string[] nameUsu = new string[MAX_VIAS_OBSTRUIDAS];
     static string[] tipoObstru = new string[MAX_VIAS_OBSTRUIDAS];
 
+
     //metodo para el menú principal
-    static void MenuPrin()
+    static void OpcionesVias()
     {
         Console.Clear();
         Console.WriteLine("Algoritmo para el registro y monitoreo de vías con sugerencia de trayectos alternos en Managua");
@@ -23,21 +178,26 @@ class ProgramaRegistroVias
         Console.WriteLine("Seleccione una opción:");
         Console.WriteLine("1. Registrar vía obstruida");
         Console.WriteLine("2. Listar vías obstruidas");
-        Console.WriteLine("3. Salir");
+        Console.WriteLine("3. Cambiar usuario");
         Console.Write("Ingrese su opción: ");
     }
 
+    static void OpcInvalida()
+    {
+        Console.Clear();
+        Console.WriteLine("¡Opción inválida!");
+        Console.WriteLine("Presione cualquier tecla para continuar...");
+        Console.ReadLine();
+    }
 
-    static void Main(string[] args)
+    //Método de el menu de vías obstruidas
+    static void MenuVias(string usuario)
     {
         bool salir = false;
-
-
         while (!salir)
         {
-           MenuPrin();
+            OpcionesVias();
             string opcion = Console.ReadLine();
-
             switch (opcion)
             {
                 case "1":
@@ -48,6 +208,7 @@ class ProgramaRegistroVias
 
                         idViaObstruida[index] = index;
 
+                        bool atrasobstru = false;
 
                         bool dvalido = false;
                         while (!dvalido)
@@ -70,6 +231,7 @@ class ProgramaRegistroVias
                             switch (selecdistrito)
                             {
                                 case "1":
+                                    Console.Clear();
                                     bool secD1valido = false;
                                     distrito[index] = "Distrito I";
                                     Console.WriteLine($"Seleccione el sector del  {distrito[index]}");
@@ -131,16 +293,17 @@ class ProgramaRegistroVias
                                                 break;
                                             case "9":
                                                 secD1valido = true;
+                                                atrasobstru = true;
                                                 break;
                                             default:
-                                                Console.WriteLine("Opción inválida");
+                                                OpcInvalida();
                                                 break;
                                         }
                                     }
-
                                     break;
 
                                 case "2":
+                                    Console.Clear();
                                     bool comOsecvalido = false;
                                     distrito[index] = "Distrito II";
                                     Console.WriteLine($"Seleccione una opción del , {distrito[index]}");
@@ -155,6 +318,7 @@ class ProgramaRegistroVias
                                         switch (comarcaOsector)
                                         {
                                             case "1":
+                                                Console.Clear();
                                                 bool comarcaD2valido = false;
                                                 Console.WriteLine($"Seleccione una comarca del ", distrito[index]);
                                                 Console.WriteLine("1. Nejapa");
@@ -217,14 +381,15 @@ class ProgramaRegistroVias
                                                             comarcaD2valido = true;
                                                             break;
                                                         default:
-                                                            Console.WriteLine("Opción inválida");
+                                                            OpcInvalida();
                                                             break;
                                                     }
                                                 }
-                                                
+
                                                 break;
 
                                             case "2":
+                                                Console.Clear();
                                                 bool sectorD2valido = false;
                                                 Console.WriteLine($"Seleccione un sector del {distrito[index]}");
                                                 Console.WriteLine("1. Valle Dorado");
@@ -290,7 +455,7 @@ class ProgramaRegistroVias
                                                             comOsecvalido = true;
                                                             break;
                                                         default:
-                                                            Console.WriteLine("Opción inválida");
+                                                            OpcInvalida();
                                                             break;
                                                     }
                                                 }
@@ -301,14 +466,15 @@ class ProgramaRegistroVias
                                                 break;
 
                                             default:
-                                                Console.WriteLine("Opción inválida");
+                                                OpcInvalida();
                                                 break;
                                         }
-                                    } 
+                                    }
                                     break;
 
 
                                 case "3":
+                                    Console.Clear();
                                     bool secD3valido = false;
                                     distrito[index] = "Distrito III";
                                     Console.WriteLine($"Seleccione un sector del {distrito[index]}");
@@ -372,15 +538,16 @@ class ProgramaRegistroVias
                                                 dvalido = true;
                                                 break;
                                             default:
-                                                Console.WriteLine("Opción inválida");
+                                                OpcInvalida();
                                                 break;
                                         }
                                     }
-                                    
+
                                     break;
 
 
                                 case "4":
+                                    Console.Clear();
                                     bool secObarD4 = false;
                                     distrito[index] = "Distrito IV";
                                     Console.WriteLine($"Seleccione una opción del {distrito[index]}");
@@ -395,6 +562,7 @@ class ProgramaRegistroVias
                                         switch (sectorObarrioD4)
                                         {
                                             case "1":
+                                                Console.Clear();
                                                 bool sectorD4valido = false;
                                                 Console.WriteLine($"Seleccione un sector del {distrito[index]}");
                                                 Console.WriteLine("1. Benedicto Valverde");
@@ -466,13 +634,14 @@ class ProgramaRegistroVias
                                                             break;
 
                                                         default:
-                                                            Console.WriteLine("Opción inválida");
+                                                            OpcInvalida();
                                                             break;
                                                     }
                                                 }
                                                 break;
 
                                             case "2":
+                                                Console.Clear();
                                                 bool barrioD4valido = false;
                                                 Console.WriteLine($"Seleccione un barrio del {distrito[index]}");
                                                 Console.WriteLine("1. Barrio San José Oriental");
@@ -502,7 +671,7 @@ class ProgramaRegistroVias
                                                             break;
 
                                                         default:
-                                                            Console.WriteLine("Opción inválida");
+                                                            OpcInvalida();
                                                             break;
                                                     }
                                                 }
@@ -513,12 +682,11 @@ class ProgramaRegistroVias
                                                 break;
 
                                             default:
-                                                Console.WriteLine("Opción inválida");
+                                                OpcInvalida();
                                                 break;
                                         }
                                     }
                                     break;
-
 
                                 case "5":
                                     distrito[index] = "Distrito V";
@@ -540,108 +708,73 @@ class ProgramaRegistroVias
 
 
                                 default:
-                                    Console.Clear();
-                                    Console.WriteLine("Opción inválida");
-                                    Console.WriteLine("Presione cualquier tecla para continuar...");
+                                    OpcInvalida();
                                     break;
                             }
-                        }
 
-                        dvalido = false;
-
-
-
-
-
-
-
-
-
-
-
-                        /*
-                                                Console.WriteLine();
-
-                                                Console.Write("Ingrese el departamento o región en el que se encuentra: ");
-                                                departamento_regionUsuario[index] = Console.ReadLine();
-
-                                                Console.Write($"Ingrese el municipio de {departamento_regionUsuario[index]} en el que se encuentra: ");
-                                                municipioUsuario[index] = Console.ReadLine();
-
-                                                Console.Write("¿En qué barrio o distrito se encuentra la vía obstruida? ");
-                                                barrio_distrito[index] = Console.ReadLine();
-
-                                                Console.Write($"Escriba la dirección de la vía obstruida de {barrio_distrito[index]}: ");
-                                                direccion[index] = Console.ReadLine();
-
-                                                Console.Write("Ingrese el tipo de obstrucción en la vía: ");
-                                                tipoObstruccion[index] = Console.ReadLine();
-
-                                                Console.WriteLine();
-                                                Console.WriteLine("Ingresar datos del reportante");
-
-                                                Console.Write("Ingrese su nombre completo: ");
-                                                nombreUsuario[index] = Console.ReadLine();
-                        
-                         */
-                        if (dvalido == false)
-                        {
-                            bool obsvalido = false;
-                            Console.WriteLine("Ingrese el tipo de obstrucción: ");
-                            Console.WriteLine("1. Obras de construcción");
-                            Console.WriteLine("2. Inundaciones");
-                            Console.WriteLine("3. Accidentes de tránsito");
-                            Console.WriteLine("4. Tráfico congestionado");
-                            Console.WriteLine("5. Atras");
-                            string obsts = Console.ReadLine();
-
-                            while (!obsvalido)
+                            dvalido = false;
+                            if (dvalido == false)
                             {
-                                switch (obsts)
+                                if (atrasobstru == false)
                                 {
-                                    case "1":
-                                        tipoObstru[index] = "Obras de construcción";
-                                        obsvalido = true;
-                                        break;
-                                    case "2":
-                                        tipoObstru[index] = "Inundaciones";
-                                        obsvalido = true;
-                                        break;
-                                    case "3":
-                                        tipoObstru[index] = "Accidentes de tránsito";
-                                        obsvalido = true;
-                                        break;
-                                    case "4":
-                                        tipoObstru[index] = "Tráfico congestionado";
-                                        obsvalido = true;
-                                        break;
-                                    case "5":
-                                        obsvalido = true;
-                                        break;
-                                    default:
-                                        Console.Clear();
-                                        Console.WriteLine("Opción inválida, por favor intente de nuevo.");
+                                    Console.Clear();
+                                    bool obsvalido = false;
+                                    Console.WriteLine("Ingrese el tipo de obstrucción: ");
+                                    Console.WriteLine("1. Obras de construcción");
+                                    Console.WriteLine("2. Inundaciones");
+                                    Console.WriteLine("3. Accidentes de tránsito");
+                                    Console.WriteLine("4. Tráfico congestionado");
+                                    Console.WriteLine("5. Atras");
+                                    string obsts = Console.ReadLine();
+
+                                    bool viaregistrada = false;
+                                    while (!obsvalido)
+                                    {
+                                        switch (obsts)
+                                        {
+                                            case "1":
+                                                tipoObstru[index] = "Obras de construcción";
+                                                obsvalido = true;
+                                                viaregistrada = true;
+                                                dvalido = true;
+                                                break;
+                                            case "2":
+                                                tipoObstru[index] = "Inundaciones";
+                                                obsvalido = true;
+                                                break;
+                                            case "3":
+                                                tipoObstru[index] = "Accidentes de tránsito";
+                                                obsvalido = true;
+                                                break;
+                                            case "4":
+                                                tipoObstru[index] = "Tráfico congestionado";
+                                                obsvalido = true;
+                                                break;
+                                            case "5":
+                                                obsvalido = true;
+                                                dvalido = true;
+                                                break;
+
+                                            default:
+                                                OpcInvalida();
+                                                obsvalido = false;
+                                                break;
+
+                                        }
+                                    }
+
+                                    if (viaregistrada == true)
+                                    {
+                                        nameUsu[index] = usuario;
+                                        Console.WriteLine();
+                                        Console.WriteLine("¡La vía obstruida ha sido registrada con éxito!");
                                         Console.WriteLine("Presione cualquier tecla para continuar...");
                                         Console.ReadLine();
-                                        obsvalido = false;
-                                        break;
-
+                                        contadorViasObstruidas++;
+                                    }
                                 }
                             }
-                            
-
-                            Console.WriteLine();
-                            Console.WriteLine("¡La vía obstruida ha sido registrada con éxito!");
-
-                            contadorViasObstruidas++;
-
-                            Console.WriteLine("Presione cualquier tecla para continuar...");
-                            Console.ReadLine();
                         }
-
-
-                        
-
                     }
                     else
                     {
@@ -653,6 +786,7 @@ class ProgramaRegistroVias
                     break;
 
                 case "2":
+                    Console.Clear();
                     if (contadorViasObstruidas > 1)
                     {
                         Console.Clear();
@@ -684,22 +818,69 @@ class ProgramaRegistroVias
 
                 case "3":
                     Console.Clear();
-                    Console.WriteLine("Cerrando algoritmo...");
-                    salir = true;  
+                    Console.WriteLine("Cambiando de usuario...");
+                    salir = true;
                     break;
 
                 //En caso de que la entrada de opción no sea ni 1, 2 o 3, se ejecutará el bloque "default"
                 //mostrando un mensaje de error y volviendo a mostrar el menú
                 default:
-                    Console.Clear();
-                    Console.WriteLine("¡Opción inválida!");
-                    Console.WriteLine("Presione cualquier tecla para continuar...");
-                    Console.ReadLine();
+                    OpcInvalida();
                     break;
             }
 
-        } 
-
-        Console.WriteLine("¡Gracias por utilizar nuestro algoritmo!");
+        }
     }
+
+    // Método principal que inicia el programa
+    static void Main(string[] args)
+    {
+        //LOGIN EN MAIN
+        int opcion1 = 0;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("=== Sistema de Usuarios ===");
+            Console.WriteLine("1. Registrar usuario");
+            Console.WriteLine("2. Iniciar sesión");
+            Console.WriteLine("3. Salir");
+            Console.Write("Selecciona una opción (1-3): ");
+            string entrada = Console.ReadLine();
+
+            if (int.TryParse(entrada, out opcion1))
+            {
+                switch (opcion1)
+                {
+                    case 1:
+                        RegistrarUsuario();
+                        break;
+                    case 2:
+                        IniciarSesion();
+                        break;
+                    case 3:
+                        Console.Clear();
+                        Console.WriteLine("Saliendo...");
+                        Console.WriteLine("¡Gracias por utilizar nuestro algoritmo!");
+                        break;
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Por favor, introduce un número válido.");
+            }
+
+            if (opcion1 != 3)
+            {
+                Console.WriteLine("\nPresiona una tecla para continuar...");
+                Console.ReadKey();
+            }
+
+        } while (opcion1 != 3);
+
+    }  
 }
+
