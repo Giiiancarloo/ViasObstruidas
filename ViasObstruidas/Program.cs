@@ -297,6 +297,8 @@ class ProgramaRegistroVias
                                                 break;
                                             default:
                                                 OpcInvalida();
+                                                atrasobstru = true;
+                                                secD1valido = true;
                                                 break;
                                         }
                                     }
@@ -382,6 +384,9 @@ class ProgramaRegistroVias
                                                             break;
                                                         default:
                                                             OpcInvalida();
+                                                            atrasobstru = true;
+                                                            comarcaD2valido = true;
+                                                            comOsecvalido = true;
                                                             break;
                                                     }
                                                 }
@@ -456,6 +461,9 @@ class ProgramaRegistroVias
                                                             break;
                                                         default:
                                                             OpcInvalida();
+                                                            atrasobstru = true;
+                                                            sectorD2valido = true;
+                                                            comOsecvalido = true;
                                                             break;
                                                     }
                                                 }
@@ -463,10 +471,13 @@ class ProgramaRegistroVias
 
                                             case "3":
                                                 comOsecvalido = true;
+                                                atrasobstru = true;
                                                 break;
 
                                             default:
                                                 OpcInvalida();
+                                                comOsecvalido = true;
+                                                atrasobstru = true;
                                                 break;
                                         }
                                     }
@@ -535,10 +546,13 @@ class ProgramaRegistroVias
                                                 dvalido = true;
                                                 break;
                                             case "9":
-                                                dvalido = true;
+                                                secD3valido = true;
+                                                atrasobstru = true;
                                                 break;
                                             default:
                                                 OpcInvalida();
+                                                secD3valido = true;
+                                                atrasobstru = true;
                                                 break;
                                         }
                                     }
@@ -548,7 +562,7 @@ class ProgramaRegistroVias
 
                                 case "4":
                                     Console.Clear();
-                                    bool secObarD4 = false;
+                                    bool secObarD4valido = false;
                                     distrito[index] = "Distrito IV";
                                     Console.WriteLine($"Seleccione una opción del {distrito[index]}");
                                     Console.WriteLine("1. Sector");
@@ -557,7 +571,7 @@ class ProgramaRegistroVias
                                     Console.Write("Ingrese su opción: ");
                                     string sectorObarrioD4 = Console.ReadLine();
 
-                                    while (!secObarD4)
+                                    while (!secObarD4valido)
                                     {
                                         switch (sectorObarrioD4)
                                         {
@@ -577,7 +591,7 @@ class ProgramaRegistroVias
                                                 Console.Write("Ingrese su opción: ");
                                                 string sectorD4 = Console.ReadLine();
 
-                                                while (sectorD4valido)
+                                                while (!sectorD4valido)
                                                 {
                                                     switch (sectorD4)
                                                     {
@@ -585,56 +599,61 @@ class ProgramaRegistroVias
                                                             sector[index] = "Benedicto Valverde";
                                                             sectorD4valido = true;
                                                             dvalido = true;
-                                                            secObarD4 = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "2":
                                                             sector[index] = "Las Tórres";
                                                             sectorD4valido = true;
                                                             dvalido = true;
-                                                            secObarD4 = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "3":
                                                             sector[index] = "Hilario Sanchez";
                                                             sectorD4valido = true;
                                                             dvalido = true;
-                                                            secObarD4 = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "4":
                                                             sector[index] = "Pedro Joaquín";
                                                             sectorD4valido = true;
                                                             dvalido = true;
-                                                            secObarD4 = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "5":
                                                             sector[index] = "Chamorro";
                                                             sectorD4valido = true;
                                                             dvalido = true;
-                                                            secObarD4 = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "6":
                                                             sector[index] = "Domitila Lugo";
                                                             sectorD4valido = true;
                                                             dvalido = true;
-                                                            secObarD4 = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "7":
                                                             sector[index] = "Selim Shible";
                                                             sectorD4valido = true;
                                                             dvalido = true;
-                                                            secObarD4 = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "8":
                                                             sector[index] = "Santa Clara";
                                                             sectorD4valido = true;
                                                             dvalido = true;
-                                                            secObarD4 = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "9":
-                                                            secObarD4 = true;
+                                                            sectorD4valido = true;
+                                                            secObarD4valido = true;
+                                                            atrasobstru = true;
                                                             break;
 
                                                         default:
                                                             OpcInvalida();
+                                                            atrasobstru = true;
+                                                            secObarD4valido = true;
+                                                            sectorD4valido = true;
                                                             break;
                                                     }
                                                 }
@@ -650,64 +669,382 @@ class ProgramaRegistroVias
                                                 Console.WriteLine("4. Barrio San José Sur");
                                                 string barrioD4 = Console.ReadLine();
 
-                                                while (barrioD4valido)
+                                                while (!barrioD4valido)
                                                 {
                                                     switch (barrioD4)
                                                     {
                                                         case "1":
                                                             barrio[index] = "Barrio San José Oriental";
+                                                            barrioD4valido = true;
+                                                            dvalido = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "2":
                                                             barrio[index] = "Barrio San José Occidental";
+                                                            barrioD4valido = true;
+                                                            dvalido = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "3":
                                                             barrio[index] = "Barrio San José Central";
+                                                            barrioD4valido = true;
+                                                            dvalido = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "4":
                                                             barrio[index] = "Barrio San José Sur";
+                                                            barrioD4valido = true;
+                                                            dvalido = true;
+                                                            secObarD4valido = true;
                                                             break;
                                                         case "5":
                                                             barrioD4valido = true;
+                                                            atrasobstru = true;
+                                                            secObarD4valido = true;
                                                             break;
 
                                                         default:
                                                             OpcInvalida();
+                                                            atrasobstru = true;
+                                                            barrioD4valido=true;
+                                                            secObarD4valido = true;
                                                             break;
                                                     }
                                                 }
                                                 break;
 
                                             case "3":
-                                                secObarD4 = true;
+                                                secObarD4valido = true;
+                                                atrasobstru = true;
                                                 break;
 
                                             default:
                                                 OpcInvalida();
+                                                atrasobstru =true;
+                                                secObarD4valido = true;
                                                 break;
                                         }
                                     }
                                     break;
 
                                 case "5":
+                                    Console.Clear();
+                                    bool secObarD5 = false;
                                     distrito[index] = "Distrito V";
-                                    break;
+                                    Console.WriteLine($"Seleccione una opción del {distrito[index]}");
+                                    Console.WriteLine("1. Sector");
+                                    Console.WriteLine("2. Barrio");
+                                    Console.WriteLine("3. Atras");
+                                    Console.Write("Ingrese su opción: ");
+                                    string sectorObarrioD5 = Console.ReadLine();
 
+                                    while (!secObarD5)
+                                    {
+                                        switch (sectorObarrioD5)
+                                        {
+                                            case "1":
+                                                Console.Clear();
+                                                bool sectorD5valido = false;
+                                                Console.WriteLine($"Seleccione un sector del {distrito[index]}");
+                                                Console.WriteLine("1. Centro América");
+                                                Console.WriteLine("2. Loma del Valle");
+                                                Console.WriteLine("3. Pantasma");
+                                                Console.WriteLine("4. Granada 1");
+                                                Console.WriteLine("5. Carlos Fonseca");
+                                                Console.WriteLine("6. Don bosco");
+                                                Console.WriteLine("7. Complejo MAO");
+                                                Console.WriteLine("8. Nicarao");
+                                                Console.WriteLine("9. Atras");
+                                                Console.Write("Ingrese su opción: ");
+                                                string sectorD5 = Console.ReadLine();
+                                                while (!sectorD5valido)
+                                                {
+                                                    switch (sectorD5)
+                                                    {
+                                                        case "1":
+                                                            sector[index] = "Centro America";
+                                                            sectorD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "2":
+                                                            sector[index] = "Loma del Valle";
+                                                            sectorD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "3":
+                                                            sector[index] = "Pantasma";
+                                                            sectorD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "4":
+                                                            sector[index] = "Granada 1";
+                                                            sectorD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "5":
+                                                            sector[index] = "Carlos Fonseca";
+                                                            sectorD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "6":
+                                                            sector[index] = "Don Bosco";
+                                                            sectorD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "7":
+                                                            sector[index] = "Complejo MAO";
+                                                            sectorD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "8":
+                                                            sector[index] = "Nicarao";
+                                                            sectorD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "9":
+                                                            sectorD5valido = true;
+                                                            atrasobstru = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        default:
+                                                            OpcInvalida();
+                                                            atrasobstru = true;
+                                                            sectorD5valido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                    }
+                                                }
+                                                break;
+                                            case "2":
+                                                Console.Clear();
+                                                bool barrioD5valido = false;
+                                                Console.WriteLine($"Seleccione un barrio del {distrito[index]}");
+                                                Console.WriteLine("1. Lomas de Santo Domingo");
+                                                Console.WriteLine("2. Altamira");
+                                                Console.WriteLine("3. Shick");
+                                                Console.WriteLine("4. Atras");
+                                                Console.Write("Ingrese su opción: ");
+                                                string barrioD5 = Console.ReadLine();
+                                                while (!barrioD5valido)
+                                                {
+                                                    switch (barrioD5)
+                                                    {
+                                                        case "1":
+                                                            barrio[index] = "Lomas de Santo Domingo";
+                                                            barrioD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "2":
+                                                            barrio[index] = "Altamira";
+                                                            barrioD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "3":
+                                                            barrio[index] = "Shick";
+                                                            barrioD5valido = true;
+                                                            dvalido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        case "4":
+                                                            barrioD5valido = true;
+                                                            atrasobstru = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                        default:
+                                                            OpcInvalida();
+                                                            atrasobstru = true;
+                                                            barrioD5valido = true;
+                                                            secObarD5 = true;
+                                                            break;
+                                                    }
+                                                }
+                                                break;
+                                            case "3":
+                                                secObarD5 = true;
+                                                atrasobstru = true;
+                                                break;
+                                        }
+
+                                    }
+                                    break;
 
                                 case "6":
+                                    Console.Clear();
+                                    bool secD6valido = false;
                                     distrito[index] = "Distrito VI";
+                                    Console.WriteLine($"Seleccione un sector del {distrito[index]}");
+                                    Console.WriteLine("1. La Primavera");
+                                    Console.WriteLine("2. Anexo La Primavera");
+                                    Console.WriteLine("3. José Dolores Estrada");
+                                    Console.WriteLine("4. Jorge Casally");
+                                    Console.WriteLine("5. Estrada");
+                                    Console.WriteLine("6. Los Rieles de Abajo");
+                                    Console.WriteLine("7. Waspán Norte");
+                                    Console.WriteLine("8. Hugo Chavez");
+                                    Console.WriteLine("9. Villa Reconciliación Sur");
+                                    Console.WriteLine("10. Atras");
+                                    Console.Write("Ingrese su opción: ");
+                                    string selecsectorD6 = Console.ReadLine();
+
+                                    while (!secD6valido)
+                                    {
+                                        switch (selecsectorD6)
+                                        {
+                                            case "1":
+                                                sector[index] = "La Primavera";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "2":
+                                                sector[index] = "Anexo La Primavera";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "3":
+                                                sector[index] = "José Dolores Estrada";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "4":
+                                                sector[index] = "Jorge Casally";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "5":
+                                                sector[index] = "Estrada";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "6":
+                                                sector[index] = "Los Rieles de Abajo";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "7":
+                                                sector[index] = "Waspán Norte";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "8":
+                                                sector[index] = "Hugo Chavez";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "9":
+                                                sector[index] = "Villa Reconciliación Sur";
+                                                secD6valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "10":
+                                                secD6valido = true;
+                                                atrasobstru = true;
+                                                break;
+                                            default:
+                                                OpcInvalida();
+                                                secD6valido = true;
+                                                atrasobstru = true;
+                                                break;
+                                        }
+                                    }
                                     break;
 
-
                                 case "7":
+                                    Console.Clear();
+                                    bool secD7valido = false;
                                     distrito[index] = "Distrito VII";
+                                    Console.WriteLine($"Seleccione un sector del {distrito[index]}");
+                                    Console.WriteLine("1. Georgino Andrade");
+                                    Console.WriteLine("2. Américas 1");
+                                    Console.WriteLine("3. Villa San Jacinto");
+                                    Console.WriteLine("4. Villa Fraternidad");
+                                    Console.WriteLine("5. Anexo Villa San Jacinto");
+                                    Console.WriteLine("6. Villa Revolución");
+                                    Console.WriteLine("7. 10 de Enero");
+                                    Console.WriteLine("8. Primero de Mayo");
+                                    Console.WriteLine("9. Villa Venezuela");
+                                    Console.WriteLine("10. Atras");
+                                    Console.Write("Ingrese su opción: ");
+                                    string selecsectorD7 = Console.ReadLine();
+                                    while (!secD7valido)
+                                    {
+                                        switch (selecsectorD7)
+                                        {
+                                            case "1":
+                                                sector[index] = "Georgino Andrade";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "2":
+                                                sector[index] = "Américas 1";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "3":
+                                                sector[index] = "Villa San Jacinto";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "4":
+                                                sector[index] = "Villa Fraternidad";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "5":
+                                                sector[index] = "Anexo Villa San Jacinto";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "6":
+                                                sector[index] = "Villa Revolución";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "7":
+                                                sector[index] = "10 de Enero";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "8":
+                                                sector[index] = "Primero de Mayo";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "9":
+                                                sector[index] = "Villa Venezuela";
+                                                secD7valido = true;
+                                                dvalido = true;
+                                                break;
+                                            case "10":
+                                                secD7valido = true;
+                                                atrasobstru = true;
+                                                break;
+                                            default:
+                                                OpcInvalida();
+                                                secD7valido = true;
+                                                atrasobstru = true;
+                                                break;
+                                        }
+                                    }
                                     break;
 
                                 case "8":
                                     dvalido = true;
+                                    atrasobstru = true;
                                     break;
 
-
                                 default:
+                                    dvalido = true;
+                                    atrasobstru = true;
                                     OpcInvalida();
                                     break;
                             }
@@ -724,7 +1061,8 @@ class ProgramaRegistroVias
                                     Console.WriteLine("2. Inundaciones");
                                     Console.WriteLine("3. Accidentes de tránsito");
                                     Console.WriteLine("4. Tráfico congestionado");
-                                    Console.WriteLine("5. Atras");
+                                    Console.WriteLine("5. Cancelar registro de vía obstruida");
+                                    Console.Write("Ingrese su opción: ");
                                     string obsts = Console.ReadLine();
 
                                     bool viaregistrada = false;
@@ -741,14 +1079,20 @@ class ProgramaRegistroVias
                                             case "2":
                                                 tipoObstru[index] = "Inundaciones";
                                                 obsvalido = true;
+                                                viaregistrada = true;
+                                                dvalido = true;
                                                 break;
                                             case "3":
                                                 tipoObstru[index] = "Accidentes de tránsito";
+                                                viaregistrada = true;
+                                                dvalido = true;
                                                 obsvalido = true;
                                                 break;
                                             case "4":
                                                 tipoObstru[index] = "Tráfico congestionado";
                                                 obsvalido = true;
+                                                viaregistrada = true;
+                                                dvalido = true;
                                                 break;
                                             case "5":
                                                 obsvalido = true;
@@ -757,10 +1101,11 @@ class ProgramaRegistroVias
 
                                             default:
                                                 OpcInvalida();
-                                                obsvalido = false;
+                                                obsvalido = true;
                                                 break;
 
                                         }
+                                       
                                     }
 
                                     if (viaregistrada == true)
@@ -774,6 +1119,7 @@ class ProgramaRegistroVias
                                     }
                                 }
                             }
+                            dvalido = true;
                         }
                     }
                     else
@@ -821,7 +1167,7 @@ class ProgramaRegistroVias
                     Console.WriteLine("Cambiando de usuario...");
                     salir = true;
                     break;
-
+                    
                 //En caso de que la entrada de opción no sea ni 1, 2 o 3, se ejecutará el bloque "default"
                 //mostrando un mensaje de error y volviendo a mostrar el menú
                 default:
@@ -844,7 +1190,7 @@ class ProgramaRegistroVias
             Console.WriteLine("=== Sistema de Usuarios ===");
             Console.WriteLine("1. Registrar usuario");
             Console.WriteLine("2. Iniciar sesión");
-            Console.WriteLine("3. Salir");
+            Console.WriteLine("3. Salir del algoritmo");
             Console.Write("Selecciona una opción (1-3): ");
             string entrada = Console.ReadLine();
 
